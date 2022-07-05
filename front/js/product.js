@@ -31,7 +31,26 @@ console.log(recupIdDansUrl);*/
       }
           });
 
- 
+  addToCart.onclick = () =>{
+    if (quantity.value >0 && quantity.value <100){
+    let productAdded ={
+      id: id,
+      color: colors.value,
+      quantity: quantity.value
+    }
+  
+    let panier = [];
+  
+    if (localStorage.getItem("products") !== null) {
+      panier = JSON.parse(localStorage.getItem("products"));
+    }
+  
+    panier.push(productAdded);
+    localStorage.setItem("products",JSON.stringify(panier));
+    ; 
+  }}
+  
+  //let 
     
 
 
