@@ -4,7 +4,8 @@ let url = new URL(str);
 let id = url.searchParams.get("id");
 console.log(id);
 
-
+const quantityPicked = document.querySelector("#quantity");
+const kanapPicked = document.getElementById(title);
 /* RECUP DE L ID
 const recupIdDansUrl = window.location.search.split("?id=").join("");
 console.log(recupIdDansUrl);*/
@@ -40,7 +41,10 @@ console.log(recupIdDansUrl);*/
     }
   
     let panier = [];
-    
+    if (quantityPicked.value > 0 && quantityPicked.value <=100 && quantityPicked.value != 0)
+    alert(`Votre Kanap a bien été ajouté à votre panier !`);
+    else
+    alert(`Veuillez choisir une quantité de Kanap à ajouter à votre panier`);
     if (localStorage.getItem("products") !== null) {
       panier = JSON.parse(localStorage.getItem("products"));
       const found = panier.find(element => element.id == productAdded.id && element.color == productAdded.color);
@@ -83,10 +87,4 @@ console.log(recupIdDansUrl);*/
     console.log(productCart);
   console.log("fin productCart");}}*/
 
-  /*if (quantityPicked.value > 0 && quantityPicked.value <=100 && quantityPicked.value != 0)
-    alert(`Votre Kanap a bien été ajouté à votre panier !`);
-    else
-    alert(`Veuillez choisir une quantité de Kanap à ajouter à votre panier`);
-    
-    const quantityPicked = document.querySelector("#quantity");
-const kanapPicked = document.getElementById(title);*/
+  /**/
