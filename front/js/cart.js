@@ -29,7 +29,7 @@ for (let product of panier) {
               </article>`;
 });}
 
-function getTotals(){
+/*function getTotals(){
 
   // Récupération du total des quantités
   let elemsQtt = document.getElementsByName("itemQuantity");
@@ -82,5 +82,83 @@ location.reload();
   })
 }}   
 
-deleteProduct();
+deleteProduct();*/
+
+function getForm() {
+
+    // Ajout des Regex
+  let form = document.querySelector(".cart__order__form")
+  console.log(form);
+
+   //Création des expressions régulières
+  let emailRegExp = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$');
+  let charRegExp = new RegExp("^[a-zA-Z ,.'-]+$");
+  let addressRegExp = new RegExp("^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+");
+
+   // Ecoute de la modification et validation du prénom
+  form.firstName.addEventListener ('change', function(){
+    validFirstName(this);
+  });
+  const validFirstName = function(inputFirstName) {
+    if (charRegExp.test(inputFirstName.value) == false) {
+     document.getElementById("firstNameErrorMsg").innerHTML = 'Attention il y a une erreur dans votre prénom !';
+  }
+    else {
+      document.getElementById("firstNameErrorMsg").innerHTML = '';
+  }};
+
+   // Ecoute de la modification et validation du nom
+  form.lastName.addEventListener ('change', function(){
+    validLastName(this);
+  });
+  const validLastName = function(inputLastName) {
+    if (charRegExp.test(inputLastName.value) == false) {
+      document.getElementById("lastNameErrorMsg").innerHTML = 'Attention il y a une erreur dans votre nom!';
+  } 
+    else {
+      document.getElementById("lastNameErrorMsg").innerHTML = '';
+  }
+  };
+
+  // Ecoute de la modification et validation de l'adresse
+  form.address.addEventListener ('change', function(){
+    validAddress(this);
+  });
+  const validAddress = function(inputAddress) {
+    if (addressRegExp.test(inputAddress.value) == false) {
+      document.getElementById("addressErrorMsg").innerHTML = 'Attention il y a une erreur dans votre adresse!'; 
+    } 
+    else {
+      document.getElementById("addressErrorMsg").innerHTML = '';
+    }
+  };
+
+  // Ecoute de la modification et validation de la ville
+  form.city.addEventListener ('change', function(){
+    validCity(this);
+  });
+  const validCity = function(inputCity) {
+    if (charRegExp.test(inputCity.value) == false) {
+      document.getElementById("cityErrorMsg").innerHTML = 'Êtes-vous certain.e d\'habiter ici ?';
+    } 
+    else {
+      document.getElementById("cityErrorMsg").innerHTML = '';
+    }
+  };
+
+  // Ecoute de la modification et validation de l'email'
+  form.email.addEventListener ('change', function(){
+    validEmail(this);
+  });
+  const validEmail = function(inputEmail) {
+    if (emailRegExp.test(inputEmail.value) == false) {
+      document.getElementById("emailErrorMsg").innerHTML = 'Attention il y a une erreur dans votre email!';
+    }
+    else {
+      document.getElementById("emailErrorMsg").innerHTML = '';
+    }
+  };
+}
+getForm();
+
 //{return res.json();}
