@@ -1,9 +1,16 @@
 let panier = JSON.parse(localStorage.getItem("products"));
 
+// S'il n'y a rien dans le localStorage : affichage d'un message d'erreur
+if (!panier){
+  alert(`Votre panier est vide !`);
+}
+
+let totalQuantity = 0;
+let totalPrice = 0;
 for (let product of panier) {
   fetch(`http://localhost:3000/api/products/${product.id}`)
 .then((res) => res.json())
-.then(data => {
+.then((data) => {
   document.getElementById("cart__items")
     .innerHTML +=
     `<article class="cart__item" data-id="${product.id}" data-color="${product.color}">
@@ -27,7 +34,103 @@ for (let product of panier) {
                   </div>
                 </div>
               </article>`;
+
+  // Affichage du total de la quantité d'article
+  let quantityNumber = parseInt(product.quantity);
+  totalQuantity = parseInt (totalQuantity) + quantityNumber;
+  console.log(totalQuantity);
+  document.getElementById("totalQuantity").textContent = totalQuantity;
+  
+  // Affichage du prix
+  let priceNumber = parseInt(data.price * product.quantity);
+  totalPrice = parseInt (totalPrice) + priceNumber;
+  console.log(totalPrice);
+  document.getElementById("totalPrice").textContent = totalPrice;
+
 });}
+
+
+
+
+
+
+
+function getForm() {
+
+    // Ajout des Regex
+  let form = document.querySelector(".cart__order__form")
+  console.log(form);
+
+   //Création des expressions régulières
+  let emailRegExp = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$');
+  let charRegExp = new RegExp("^[a-zA-Z ,.'-]+$");
+  let addressRegExp = new RegExp("^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+");
+
+   // Ecoute de la modification et validation du prénom
+  form.firstName.addEventListener ('change', function(){
+    validFirstName(this);
+  });
+  const validFirstName = function(inputFirstName) {
+    if (charRegExp.test(inputFirstName.value) == false) {
+     document.getElementById("firstNameErrorMsg").innerHTML = 'Attention il y a une erreur dans votre prénom !';
+  }
+    else {
+      document.getElementById("firstNameErrorMsg").innerHTML = '';
+  }};
+
+   // Ecoute de la modification et validation du nom
+  form.lastName.addEventListener ('change', function(){
+    validLastName(this);
+  });
+  const validLastName = function(inputLastName) {
+    if (charRegExp.test(inputLastName.value) == false) {
+      document.getElementById("lastNameErrorMsg").innerHTML = 'Attention il y a une erreur dans votre nom !';
+  } 
+    else {
+      document.getElementById("lastNameErrorMsg").innerHTML = '';
+  }
+  };
+
+  // Ecoute de la modification et validation de l'adresse
+  form.address.addEventListener ('change', function(){
+    validAddress(this);
+  });
+  const validAddress = function(inputAddress) {
+    if (addressRegExp.test(inputAddress.value) == false) {
+      document.getElementById("addressErrorMsg").innerHTML = 'Attention il y a une erreur dans votre adresse !'; 
+    } 
+    else {
+      document.getElementById("addressErrorMsg").innerHTML = '';
+    }
+  };
+
+  // Ecoute de la modification et validation de la ville
+  form.city.addEventListener ('change', function(){
+    validCity(this);
+  });
+  const validCity = function(inputCity) {
+    if (charRegExp.test(inputCity.value) == false) {
+      document.getElementById("cityErrorMsg").innerHTML = 'Êtes-vous certain.e d\'habiter ici ?';
+    } 
+    else {
+      document.getElementById("cityErrorMsg").innerHTML = '';
+    }
+  };
+
+  // Ecoute de la modification et validation de l'email
+  form.email.addEventListener ('change', function(){
+    validEmail(this);
+  });
+  const validEmail = function(inputEmail) {
+    if (emailRegExp.test(inputEmail.value) == false) {
+      document.getElementById("emailErrorMsg").innerHTML = 'Attention il y a une erreur dans votre email !';
+    }
+    else {
+      document.getElementById("emailErrorMsg").innerHTML = '';
+    }
+  };
+}
+getForm();
 
 /*function getTotals(){
 
@@ -83,82 +186,4 @@ location.reload();
 }}   
 
 deleteProduct();*/
-
-function getForm() {
-
-    // Ajout des Regex
-  let form = document.querySelector(".cart__order__form")
-  console.log(form);
-
-   //Création des expressions régulières
-  let emailRegExp = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$');
-  let charRegExp = new RegExp("^[a-zA-Z ,.'-]+$");
-  let addressRegExp = new RegExp("^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+");
-
-   // Ecoute de la modification et validation du prénom
-  form.firstName.addEventListener ('change', function(){
-    validFirstName(this);
-  });
-  const validFirstName = function(inputFirstName) {
-    if (charRegExp.test(inputFirstName.value) == false) {
-     document.getElementById("firstNameErrorMsg").innerHTML = 'Attention il y a une erreur dans votre prénom !';
-  }
-    else {
-      document.getElementById("firstNameErrorMsg").innerHTML = '';
-  }};
-
-   // Ecoute de la modification et validation du nom
-  form.lastName.addEventListener ('change', function(){
-    validLastName(this);
-  });
-  const validLastName = function(inputLastName) {
-    if (charRegExp.test(inputLastName.value) == false) {
-      document.getElementById("lastNameErrorMsg").innerHTML = 'Attention il y a une erreur dans votre nom!';
-  } 
-    else {
-      document.getElementById("lastNameErrorMsg").innerHTML = '';
-  }
-  };
-
-  // Ecoute de la modification et validation de l'adresse
-  form.address.addEventListener ('change', function(){
-    validAddress(this);
-  });
-  const validAddress = function(inputAddress) {
-    if (addressRegExp.test(inputAddress.value) == false) {
-      document.getElementById("addressErrorMsg").innerHTML = 'Attention il y a une erreur dans votre adresse!'; 
-    } 
-    else {
-      document.getElementById("addressErrorMsg").innerHTML = '';
-    }
-  };
-
-  // Ecoute de la modification et validation de la ville
-  form.city.addEventListener ('change', function(){
-    validCity(this);
-  });
-  const validCity = function(inputCity) {
-    if (charRegExp.test(inputCity.value) == false) {
-      document.getElementById("cityErrorMsg").innerHTML = 'Êtes-vous certain.e d\'habiter ici ?';
-    } 
-    else {
-      document.getElementById("cityErrorMsg").innerHTML = '';
-    }
-  };
-
-  // Ecoute de la modification et validation de l'email'
-  form.email.addEventListener ('change', function(){
-    validEmail(this);
-  });
-  const validEmail = function(inputEmail) {
-    if (emailRegExp.test(inputEmail.value) == false) {
-      document.getElementById("emailErrorMsg").innerHTML = 'Attention il y a une erreur dans votre email!';
-    }
-    else {
-      document.getElementById("emailErrorMsg").innerHTML = '';
-    }
-  };
-}
-getForm();
-
 //{return res.json();}
