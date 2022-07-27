@@ -1,7 +1,7 @@
 let panier = JSON.parse(localStorage.getItem("products"));
 
-// S'il n'y a rien dans le localStorage : affichage d'un message d'erreur
-if (!panier){
+// S'il n'y a rien dans le localStorage ou bien que le panier est vide : affichage d'un message d'erreur
+if (!panier || panier == 0 ){ // panier != null
   alert(`Votre panier est vide !`);
   window.location.href = "index.html";
 }
@@ -80,6 +80,16 @@ for (let product of panier) {
    productQuantity.setAttribute("min", "1");
    productQuantity.setAttribute("max", "100");
    productQuantity.value = `${product.quantity}`;
+   productQuantity.addEventListener('change', (event) => {
+    let productQuantityValue= productQuantity.valueAsNumber;
+    const found = panier.find(element => element.productQuantityValue !== product.quantity)
+    found.quantity = productQuantity.valueAsNumber;
+    product.quantity = found.quantity;
+    localStorage.setItem("products", JSON.stringify(panier));
+    location.reload();
+    alert('La quantité de Kanap a bien été mise à jour !');
+    
+   })
    //productQuantity.addEventListener ('change');
 
    // Insertion de l'élément "div"
@@ -101,17 +111,18 @@ for (let product of panier) {
 
   // filtrer l'élément cliqué par le bouton supprimer
   // en respectant les conditions du callback
-  let panierModif = panier.filter( elt => elt.id !== product.id || elt.color !== product.color);
+  let panierModif = panier.filter( element => element.id !== product.id || element.color !== product.color);
+  console.log(panierModif);
     
   // envoyer les nouvelles données dans le localStorage
-  localStorage.setItem('product', JSON.stringify(panierModif));
+  localStorage.setItem("products", JSON.stringify(panierModif));
 
   // avertir de la suppression et recharger la page
+  location.reload();
   alert('Votre article a bien été supprimé.');
-  window.location.href = "cart.html";
-  });
-
   
+  //window.location.href = "cart.html";
+  });
 
   // Affichage du total de la quantité d'article
   let quantityNumber = parseInt(product.quantity);
@@ -124,37 +135,6 @@ for (let product of panier) {
   document.getElementById("totalPrice").textContent = totalPrice;
 
 });}
-
-/*/ je supprime un produit dans le panier
-function deleteArticle() {
-  const deleteItem = document.getElementsByClassName("deleteItem");
-  console.log(deleteItem);
-  console.log(deleteItem.length);
-
-  for (let k of deleteItem) { 
-    
-    k.addEventListener('click', (event) => {
-      console.log('clicked');
-    event.preventDefault();
-      
-    // enregistrer l'id et la couleur séléctionnés par le bouton supprimer
-    let deleteId = product.id;
-    let deleteColor = product.color;
-
-    // filtrer l'élément cliqué par le bouton supprimer
-    // en respectant les conditions du callback
-    let panierModif = panier.filter( elt => elt.id !== deleteId || elt.color !== deleteColor);
-      
-    // envoyer les nouvelles données dans le localStorage
-    localStorage.setItem('product', JSON.stringify(panierModif));
-
-    // avertir de la suppression et recharger la page
-    alert('Votre article a bien été supprimé.');
-    window.location.href = "cart.html";
-    });
-  }
-}
-deleteArticle();
 
 /*function deleteItem() {
   let buttons = document.getElementsByClassName("deleteItem");
