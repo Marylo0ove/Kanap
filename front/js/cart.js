@@ -152,10 +152,13 @@ for (let product of panier) {
   const validFirstName = function(inputFirstName) {
     if (charRegExp.test(inputFirstName.value) == false) {
      document.getElementById("firstNameErrorMsg").innerHTML = 'Attention il y a une erreur dans votre prénom !';
+     return false
   }
     else {
       document.getElementById("firstNameErrorMsg").innerHTML = '';
-  }};
+      return true
+  }
+};
 
    // Ecoute de la modification et validation du nom
   form.lastName.addEventListener ('change', function(){
@@ -164,9 +167,11 @@ for (let product of panier) {
   const validLastName = function(inputLastName) {
     if (charRegExp.test(inputLastName.value) == false) {
       document.getElementById("lastNameErrorMsg").innerHTML = 'Attention il y a une erreur dans votre nom !';
+      return false
   } 
     else {
       document.getElementById("lastNameErrorMsg").innerHTML = '';
+      return true
   }
   };
 
@@ -176,10 +181,12 @@ for (let product of panier) {
   });
   const validAddress = function(inputAddress) {
     if (addressRegExp.test(inputAddress.value) == false) {
-      document.getElementById("addressErrorMsg").innerHTML = 'Attention il y a une erreur dans votre adresse !'; 
+      document.getElementById("addressErrorMsg").innerHTML = 'Attention il y a une erreur dans votre adresse !';
+      return false 
     } 
     else {
       document.getElementById("addressErrorMsg").innerHTML = '';
+      return true
     }
   };
 
@@ -190,9 +197,11 @@ for (let product of panier) {
   const validCity = function(inputCity) {
     if (charRegExp.test(inputCity.value) == false) {
       document.getElementById("cityErrorMsg").innerHTML = 'Êtes-vous certain.e d\'habiter ici ?';
+      return false
     } 
     else {
       document.getElementById("cityErrorMsg").innerHTML = '';
+      return true
     }
   };
 
@@ -203,20 +212,23 @@ for (let product of panier) {
   const validEmail = function(inputEmail) {
     if (emailRegExp.test(inputEmail.value) == false) {
       document.getElementById("emailErrorMsg").innerHTML = 'Attention il y a une erreur dans votre email !';
+      return false
     }
     else {
       document.getElementById("emailErrorMsg").innerHTML = '';
+      return true
     }
   };
 //}
   //getForm();
 /* ______________________POST _____________________________*/
-const contact = {
-    firstName : document.getElementById('firstName').value,
-    lastName : document.getElementById('lastName').value,
-    address : document.getElementById('address').value,
-    city : document.getElementById('city').value,
-    email : document.getElementById('email').value
+function setForm() {
+  const contact = {
+    "firstName" : document.getElementById('firstName').value,
+    "lastName" : document.getElementById('lastName').value,
+    "address" : document.getElementById('address').value,
+    "city" : document.getElementById('city').value,
+    "email" : document.getElementById('email').value
     
   }
   console.log(contact);
@@ -227,12 +239,31 @@ let productsOrder = [];
       }
 console.log(productsOrder);
 
+let order = {
+  "contact" : contact,
+  "products" : productsOrder
+}
+fetch("http://localhost:3000/api/products/order", {
+  method: 'POST',
+  body: JSON.stringify(order),
+  headers: { 
+      'Accept': 'application/json', 
+      'Content-Type': 'application/json' 
+      },
+  
+  })
+  .then(res => { if(res.ok) return res.json();})
+      .then(e => {
+        console.log(e.orderId);
+      });}
+
 function postForm() {
   const boutonOrder = document.getElementById("order");
   console.log(boutonOrder);
   boutonOrder.addEventListener('click', (event) => {
     console.log('cliked');
     event.preventDefault();
+    setForm();
   })}
 
   function validControl() {
@@ -245,19 +276,7 @@ function postForm() {
       return true;
     } 
   }
-  validControl()
 
-let order = {
-  contact,
-  productsOrder
-}
-fetch("http://localhost:3000/api/products/order", {
-  method: 'POST',
-  body: JSON.stringify(order),
-  headers: { 
-      'Accept': 'application/json', 
-      'Content-Type': 'application/json' 
-      },
-  
-  })
+
+
   postForm();
