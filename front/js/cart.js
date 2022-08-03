@@ -66,27 +66,25 @@ for (let product of panier) {
     productItemContent.appendChild(productItemContentSettings);
     productItemContentSettings.className = "cart__item__content__settings";
 
-     // Création de l'élément "div"
-     let productItemContentSettingsQuantity = document.createElement("div");
-     productItemContentSettings.appendChild(productItemContentSettingsQuantity);
-     productItemContentSettingsQuantity.className = "cart__item__content__settings__quantity";
-
-     // Création de "Qté : "
-     let productQte = document.createElement("p");
-     productItemContentSettingsQuantity.appendChild(productQte);
-     productQte.textContent = "Qté : ";
-
-     // Création de la quantité
-     let productQuantity = document.createElement("input");
-     productItemContentSettingsQuantity.appendChild(productQuantity);
-     productQuantity.setAttribute("type", "number");
-     productQuantity.className = "itemQuantity";
-     productQuantity.setAttribute("name", "itemQuantity");
-     productQuantity.setAttribute("min", "1");
-     productQuantity.setAttribute("max", "100");
-     productQuantity.value = `${product.quantity}`;
-          // Modification de la quantité
-     productQuantity.addEventListener('change', (event) => {
+    // Création de l'élément "div"
+    let productItemContentSettingsQuantity = document.createElement("div");
+    productItemContentSettings.appendChild(productItemContentSettingsQuantity);
+    productItemContentSettingsQuantity.className = "cart__item__content__settings__quantity";
+    // Création de "Qté : "
+    let productQte = document.createElement("p");
+    productItemContentSettingsQuantity.appendChild(productQte);
+    productQte.textContent = "Qté : ";
+    // Création de la quantité
+    let productQuantity = document.createElement("input");
+    productItemContentSettingsQuantity.appendChild(productQuantity);
+    productQuantity.setAttribute("type", "number");
+    productQuantity.className = "itemQuantity";
+    productQuantity.setAttribute("name", "itemQuantity");
+    productQuantity.setAttribute("min", "1");
+    productQuantity.setAttribute("max", "100");
+    productQuantity.value = `${product.quantity}`;
+         // Modification de la quantité
+    productQuantity.addEventListener('change', (event) => {
       let productQuantityValue = productQuantity.valueAsNumber;
       const found = panier.find(element => element.productQuantityValue !== product.quantity)
       found.quantity = productQuantity.valueAsNumber;
@@ -94,19 +92,17 @@ for (let product of panier) {
       localStorage.setItem("products", JSON.stringify(panier));
       location.reload();
       alert('La quantité de Kanap a bien été mise à jour !');
-     })
-
-     // Création de l'élément "div"
-     let productItemContentSettingsDelete = document.createElement("div");
-     productItemContentSettings.appendChild(productItemContentSettingsDelete);
-     productItemContentSettingsDelete.className = "cart__item__content__settings__delete";
-
-     // Création de "p" supprimer
-     let productSupprimer = document.createElement("p");
-     productItemContentSettingsDelete.appendChild(productSupprimer);
-     productSupprimer.className = "deleteItem";
-     productSupprimer.textContent = "Supprimer";
-      // Action de supprimer
+    })
+    // Création de l'élément "div"
+    let productItemContentSettingsDelete = document.createElement("div");
+    productItemContentSettings.appendChild(productItemContentSettingsDelete);
+    productItemContentSettingsDelete.className = "cart__item__content__settings__delete";
+    // Création de "p" supprimer
+    let productSupprimer = document.createElement("p");
+    productItemContentSettingsDelete.appendChild(productSupprimer);
+    productSupprimer.className = "deleteItem";
+    productSupprimer.textContent = "Supprimer";
+     // Action de supprimer
     productSupprimer.addEventListener('click', (event) => {
       event.preventDefault();
         // filtrer l'élément cliqué par le bouton supprimer
@@ -244,6 +240,9 @@ function setForm() {
     "contact" : contact,
     "products" : productsOrder
   }
+  console.log(order);
+
+  //Lorsque tous les champs sont valides, on envoit contact dans le localStorage
   function validControl() {
     if (validFirstName(document.getElementById('firstName')) 
     && validLastName(document.getElementById('lastName')) 
@@ -254,6 +253,8 @@ function setForm() {
       return true;
     } 
   };
+ 
+//Si les champs sont valides, on envoit order à l'API
 if (validControl() == true) {
 fetch("http://localhost:3000/api/products/order", {
   method: 'POST',
@@ -263,21 +264,20 @@ fetch("http://localhost:3000/api/products/order", {
       'Content-Type': 'application/json'  
       },  
   })
+  // Puis on récupère la réponse qui est l'id de la commande
   .then(res => { if(res.ok) return res.json();})
       .then(e => {
         console.log(e.orderId);
         window.location.href = `confirmation.html?id=${e.orderId}`
       });}
     }
-
+// Au moment du clic on éxécute tout
 function postForm() {
   const boutonOrder = document.getElementById("order");
-  console.log(boutonOrder);
   boutonOrder.addEventListener('click', (event) => {
     console.log('cliked');
     event.preventDefault();
     setForm();
-    localStoragetorage.clear();
   })}
 postForm();
   

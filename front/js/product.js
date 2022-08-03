@@ -30,6 +30,7 @@ fetch(`http://localhost:3000/api/products/${id}`)
   }
 });
 
+// Au moment du clic
 addToCart.onclick = () =>{
   let productAdded ={
     id: id,
@@ -38,22 +39,25 @@ addToCart.onclick = () =>{
   }
 
   let panier = [];
+  // Si 0<quantité<100 ET couleur sélectionnée
   if (quantityPicked.value > 0 && quantityPicked.value <=100 && quantityPicked.value != 0 && productAdded.color != ""){
+    //S'il y a déjà un panier, on y cherche l'article, même id même couleur
     if (localStorage.getItem("products") !== null) {
     panier = JSON.parse(localStorage.getItem("products"));
     const found = panier.find(element => element.id == productAdded.id && element.color == productAdded.color);
     console.log(found);
-
+      // Si l'article est déjà présent on actualise la quantité
       if (found) {
       found.quantity = parseInt(found.quantity) + parseInt(productAdded.quantity);
       localStorage.setItem("products", JSON.stringify(panier));
-      }
-
+      } 
+      // Sinon on l'ajoute
       else{
       panier.push(productAdded);
       localStorage.setItem("products",JSON.stringify(panier));
       }   
     }
+    // S'il n'y a pas de panier, on le créé
     else{
     panier.push(productAdded);
     localStorage.setItem("products",JSON.stringify(panier));

@@ -6,6 +6,6 @@ let id = url.searchParams.get("id");
 console.log(id);
 
 let orderId = document.getElementById("orderId");
-    orderId.innerHTML = id;
+orderId.innerHTML = id;
 
-    localStorage.clear();
+localStorage.clear();
