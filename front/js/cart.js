@@ -143,8 +143,8 @@ console.log(form);
 
  //Création des expressions régulières
 let emailRegExp = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$');
-let charRegExp = new RegExp("^[a-zA-Z ,.'-]+$");
-let addressRegExp = new RegExp("^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+");
+let charRegExp = new RegExp("^[a-zA-Z '-]+$");
+let addressRegExp = new RegExp("^[a-zA-Z0-9 '-]+$")
 
  // Ecoute de la modification et validation du prénom
 form.firstName.addEventListener ('change', function(){
@@ -152,7 +152,7 @@ form.firstName.addEventListener ('change', function(){
 });
 const validFirstName = function(inputFirstName) {
   if (charRegExp.test(inputFirstName.value) == false) {
-   document.getElementById("firstNameErrorMsg").innerHTML = 'Attention il y a une erreur dans votre prénom !';
+   document.getElementById("firstNameErrorMsg").innerHTML = 'Il y a une erreur dans votre prénom ! Attention les accents et caractères spéciaux ne sont pas autorisés.';
    return false
   }
   else {
@@ -166,7 +166,7 @@ form.lastName.addEventListener ('change', function(){
 });
 const validLastName = function(inputLastName) {
   if (charRegExp.test(inputLastName.value) == false) {
-    document.getElementById("lastNameErrorMsg").innerHTML = 'Attention il y a une erreur dans votre nom !';
+    document.getElementById("lastNameErrorMsg").innerHTML = 'Il y a une erreur dans votre nom ! Attention les accents et caractères spéciaux ne sont pas autorisés.';
     return false
   } 
   else {
@@ -180,7 +180,7 @@ form.address.addEventListener ('change', function(){
 });
 const validAddress = function(inputAddress) {
   if (addressRegExp.test(inputAddress.value) == false) {
-    document.getElementById("addressErrorMsg").innerHTML = 'Attention il y a une erreur dans votre adresse !';
+    document.getElementById("addressErrorMsg").innerHTML = 'Il y a une erreur dans votre adresse ! Attention les accents et caractères spéciaux ne sont pas autorisés.';
     return false 
   } 
   else {
@@ -194,7 +194,7 @@ form.city.addEventListener ('change', function(){
 });
 const validCity = function(inputCity) {
   if (charRegExp.test(inputCity.value) == false) {
-    document.getElementById("cityErrorMsg").innerHTML = 'Êtes-vous certain.e d\'habiter ici ?';
+    document.getElementById("cityErrorMsg").innerHTML = 'Êtes-vous certain.e d\'habiter ici ? Attention les accents et caractères spéciaux ne sont pas autorisés.' ;
     return false
   } 
   else {

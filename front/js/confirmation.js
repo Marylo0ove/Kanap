@@ -9,4 +9,5 @@ console.log(id);
 let orderId = document.getElementById("orderId");
 orderId.innerHTML = id;
 //LocalStorage vidé
-localStorage.clear();
+localStorage.removeItem("products");
+localStorage.removeItem("contact");
