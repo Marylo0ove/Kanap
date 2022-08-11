@@ -152,8 +152,8 @@ console.log(form);
 
 //Création des expressions régulières
 let emailRegExp = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$');
-let charRegExp = new RegExp("^[a-zA-Z '-]+$"); // Accepte uniquement les lettres, apostrophes et tirets
-let addressRegExp = new RegExp("^[a-zA-Z0-9 '-]+$") // Accepte chiffres, lettres, apostrophes et tirets
+let charRegExp = new RegExp("^[a-zA-ZÀ-ÿ '-]+$"); // Accepte les lettres + accents, apostrophes et tirets
+let addressRegExp = new RegExp("^[a-zA-ZÀ-ÿ0-9 '-]+$") // Accepte chiffres, lettres + accents, apostrophes et tirets
 
 // Ecoute de la modification des champs du formulaire
 form.firstName.addEventListener ('change', function(){
@@ -175,7 +175,7 @@ form.email.addEventListener ('change', function(){
 //Validation du prénom
 const validFirstName = function(inputFirstName) {
   if (charRegExp.test(inputFirstName.value) == false) {
-   document.getElementById("firstNameErrorMsg").innerHTML = 'Il y a une erreur dans votre prénom ! Attention les accents et caractères spéciaux ne sont pas autorisés.';
+   document.getElementById("firstNameErrorMsg").innerHTML = 'Il y a une erreur dans votre prénom ! Attention les caractères spéciaux ne sont pas autorisés.';
    return false
   }
   else {
@@ -187,7 +187,7 @@ const validFirstName = function(inputFirstName) {
 //Validation du nom
 const validLastName = function(inputLastName) {
   if (charRegExp.test(inputLastName.value) == false) {
-    document.getElementById("lastNameErrorMsg").innerHTML = 'Il y a une erreur dans votre nom ! Attention les accents et caractères spéciaux ne sont pas autorisés.';
+    document.getElementById("lastNameErrorMsg").innerHTML = 'Il y a une erreur dans votre nom ! Attention les caractères spéciaux ne sont pas autorisés.';
     return false
   } 
   else {
@@ -199,7 +199,7 @@ const validLastName = function(inputLastName) {
 // Validation de l'adresse
 const validAddress = function(inputAddress) {
   if (addressRegExp.test(inputAddress.value) == false) {
-    document.getElementById("addressErrorMsg").innerHTML = 'Il y a une erreur dans votre adresse ! Attention les accents et caractères spéciaux ne sont pas autorisés.';
+    document.getElementById("addressErrorMsg").innerHTML = 'Il y a une erreur dans votre adresse ! Attention les caractères spéciaux ne sont pas autorisés.';
     return false 
   } 
   else {
@@ -211,7 +211,7 @@ const validAddress = function(inputAddress) {
 // Validation de la ville
 const validCity = function(inputCity) {
   if (charRegExp.test(inputCity.value) == false) {
-    document.getElementById("cityErrorMsg").innerHTML = 'Êtes-vous certain.e d\'habiter ici ? Attention les accents et caractères spéciaux ne sont pas autorisés.' ;
+    document.getElementById("cityErrorMsg").innerHTML = 'Êtes-vous certain.e d\'habiter ici ? Attention les caractères spéciaux ne sont pas autorisés.' ;
     return false
   } 
   else {
