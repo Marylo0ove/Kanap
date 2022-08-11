@@ -68,6 +68,8 @@ addToCart.onclick = () =>{
   
   if (quantityPicked.value <= 0)
   alert(`Veuillez choisir une quantité de Kanap à ajouter à votre panier`);
+  if (quantityPicked.value >100)
+  alert('Veuillez choisir une quantité raisonnable de Kanap ! Moins de 100.')
   if (productAdded.color == "")
   alert(`Veuillez choisir une couleur`);
 }
